@@ -290,6 +290,7 @@ Config* cfg_parse(char* filename) {
     }
   }
 
+  free(p);
   close_file(f);
   return cfg;
 }

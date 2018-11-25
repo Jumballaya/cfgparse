@@ -3,6 +3,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "include/parser.h"
 
 int main(int argc, char** argv) {
@@ -16,6 +17,10 @@ int main(int argc, char** argv) {
   for (int i = 0; i < cfg->len; i++) {
     printf("%s = %s\n", cfg->keys[i], cfg->values[i]);
   }
+
+  free(cfg->keys);
+  free(cfg->values);
+  free(cfg);
 
   return 0;
 }
