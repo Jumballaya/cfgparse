@@ -57,7 +57,7 @@ char** str_split(char* s, char* delim) {
 char* append(char* s, char c) {
   int len = strlen(s);
 
-  char* p = malloc(sizeof(char) * (len + 1));
+  char* p = malloc(sizeof(char) * (len + 2));
   strcpy(p, s);
   p[len] = c;
   p[len+1] = '\0';
