@@ -23,6 +23,7 @@ DIR_INC = include/
 # Compiler settings
 CC = gcc
 FLAGS = -Wall
+FLAGS_DEBUG = -Wall -g
 INC = -I $(DIR_INC)
 
 # General info
@@ -40,6 +41,9 @@ OBJ 					= $(patsubst $(DIR_SRC)%,$(DIR_BUILD_OBJECTS)%,$(SOURCES:.c=.o))
 $(DIR_BIN)$(BIN_NAME): $(OBJ)
 	$(MKDIR) $(DIR_BIN)
 	$(CC) $(FLAGS) -o $@ $(ENTRY) $^
+
+$(DIR_BIN)$(BIN_NAME)_d: $(OBJ)
+	$(CC) $(FLAGS_DEBUG) -o $@ $(ENTRY) $^
 
 # Create the build files
 $(DIR_BUILD_OBJECTS)%.o: $(DIR_SRC)%.c $(HEADERS) $(DIR_BUILD_OBJECTS)
@@ -61,6 +65,11 @@ clean:
 install:
 	$(CP) $(DIR_BIN)$(BIN_NAME) $(DIR_INSTALL)$(BIN_NAME)
 
+# Create debug binary
+debug: $(DIR_BIN)$(BIN_NAME)_d
+	valgrind -v --leak-check=yes --log-file=valgrind.log $< test.cfg
+
 .PHONY: build
+.PHONY: debug
 .PHONY: clean
 .PHONY: install
