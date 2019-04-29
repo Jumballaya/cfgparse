@@ -22,8 +22,8 @@ DIR_INC = include/
 
 # Compiler settings
 CC = gcc
-FLAGS = -Wall
-FLAGS_DEBUG = -Wall -g
+FLAGS = -Wall -Wextra -Wpedantic -Werror
+FLAGS_DEBUG = -Wall -Wextra -Wpedantic -Werror -g
 INC = -I $(DIR_INC)
 
 # General info
