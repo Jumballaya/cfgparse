@@ -4,13 +4,12 @@
 #ifndef CFG_PARSER_H
 #define CFG_PARSER_H
 
-struct Config_t {
+typedef struct {
   char** keys;
   char** values;
   int len;
   int size;
-};
-typedef struct Config_t Config;
+} Config;
 
 Config* new_config();
 char* config_get(Config* cfg, char* key);
