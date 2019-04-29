@@ -1,11 +1,6 @@
 /**
  * Config Parser
  */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-
 #include "parser.h"
 
 #define TOK_COMMENT '#'
@@ -16,7 +11,6 @@
 #define TOK_RPAREN  ')'
 #define TOK_EOF     '\0'
 #define TOK_NEWLINE '\n'
-
 
 /***
  * Helpers
@@ -82,35 +76,11 @@ void trim(char* s) {
   memmove(s, p, len + 1);
 }
 
-
-
-
-// Parser
-struct Parser_t {
-  char* input;
-  int pos;
-  int readPos;
-  char cur;
-};
-typedef struct Parser_t Parser;
-
-void parser_read_char(Parser* p);
-void parser_parse_comment(Parser* p);
-Parser* new_parser(char* input);
-
-
 /***********
  *
  *   File
  *
  * *********/
-
-struct file_t {
-  FILE* fp;
-  char* contents;
-  long size;
-};
-typedef struct file_t File;
 
 File* open_file(char* filename) {
   File* f = malloc(sizeof(File));
@@ -151,11 +121,6 @@ void close_file(File* f) {
   free(f->contents);
   free(f);
 }
-
-
-
-
-
 
 /***********
  *
@@ -200,21 +165,11 @@ void config_put(Config* cfg, char* k, char* v) {
   }
 }
 
-
-
-
-
 /***********
  *
  *   Parser
  *
  * *********/
-void parser_skip_newline(Parser* p) {
-  if (p->cur == '\n') {
-    parser_read_char(p);
-  }
-}
-
 void parser_read_char(Parser* p) {
   if (p->readPos >= (int)strlen(p->input)) {
     p->cur = '\0';
@@ -223,6 +178,12 @@ void parser_read_char(Parser* p) {
   }
   p->pos = p->readPos;
   p->readPos += 1;
+}
+
+void parser_skip_newline(Parser* p) {
+  if (p->cur == '\n') {
+    parser_read_char(p);
+  }
 }
 
 void parser_parse_comment(Parser* p) {
@@ -265,11 +226,6 @@ Parser* new_parser(char* input) {
 
   return p;
 }
-
-
-
-
-
 
 // Parse the config file and return the result
 Config* cfg_parse(char* filename) {
