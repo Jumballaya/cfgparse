@@ -89,8 +89,6 @@ File* open_file(char* filename) {
   if (!f->fp) {
     fprintf(stderr, "error: unable to open file %s\n", filename);
     exit(EXIT_FAILURE);
-    fprintf(stderr, "error: unable to open file %s\n", filename);
-    exit(EXIT_FAILURE);
   }
 
   fseek(f->fp, 0L, SEEK_END);
@@ -106,7 +104,7 @@ File* open_file(char* filename) {
   }
 
   // Copy the file into the contents
-  if (1 != fread(f->contents, f->size, 1, f->fp)) {
+  if (fread(f->contents, f->size, 1, f->fp) != 1) {
     fclose(f->fp);
     free(f->contents);
     fprintf(stderr, "error: failed reading file %s\n", filename);
