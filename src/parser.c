@@ -59,6 +59,16 @@ char* append(char* s, char c) {
   return p;
 }
 
+// word append
+char* append_word(char* s, char* c) {
+  int lens = strlen(s);
+  int lenc = strlen(c);
+  char* p = malloc(sizeof(char) * (lens + lenc + 1));
+  strcpy(p, s);
+  strcat(p, c);
+  return p;
+}
+
 // string trim whitespace
 void trim(char* s) {
   char *p = s;
@@ -137,7 +147,7 @@ Config* new_config() {
 
 char* config_get(Config* cfg, char* key) {
   for (int i = 0; i < cfg->len; i++) {
-    if (key == cfg->keys[i]) {
+    if (strcmp(key, cfg->keys[i]) == 0) {
       return cfg->values[i];
     }
   }
@@ -190,6 +200,15 @@ void parser_parse_comment(Parser* p) {
   }
 }
 
+char* parser_read_var_key(Parser* p) {
+  char* key = malloc(sizeof(char));
+  while (p->cur != TOK_RPAREN) {
+    key = append(key, p->cur);
+    parser_read_char(p);
+  }
+  return key;
+}
+
 void parser_parse_assignment(Parser* p, Config* cfg) {
   char* key = "";
   char* val = "";
@@ -206,7 +225,20 @@ void parser_parse_assignment(Parser* p, Config* cfg) {
 
   // Get value
   while(p->cur != TOK_NEWLINE && p->cur != TOK_EOF && p->cur != TOK_COMMENT) {
-    val = append(val, p->cur);
+    if (p->cur == TOK_DOLLAR && p->input[p->readPos] == TOK_LPAREN) {
+      parser_read_char(p);
+      parser_read_char(p);
+      char* var_key = parser_read_var_key(p);
+      char* var_val = config_get(cfg, var_key);
+      if (var_val[0] == '\0') {
+        // Variable not found, exit
+        printf("Error: key \"%s\" not found\n", var_key);
+        exit(EXIT_FAILURE);
+      }
+      val = append_word(val, var_val);
+    } else {
+      val = append(val, p->cur);
+    }
     parser_read_char(p);
   }
   trim(val);
