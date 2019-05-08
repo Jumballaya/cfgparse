@@ -18,9 +18,7 @@ int main(int argc, char** argv) {
     printf("%s = %s\n", cfg->keys[i], cfg->values[i]);
   }
 
-  free(cfg->keys);
-  free(cfg->values);
-  free(cfg);
+  cfg_cleanup(cfg);
 
   return 0;
 }

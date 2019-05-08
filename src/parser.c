@@ -280,3 +280,10 @@ Config* cfg_parse(char* filename) {
   close_file(f);
   return cfg;
 }
+
+// Cleanup Config memory
+void cfg_cleanup(Config* cfg) {
+  free(cfg->keys);
+  free(cfg->values);
+  free(cfg);
+}
