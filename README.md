@@ -69,3 +69,14 @@ You can include these files and use the following functions to interact with the
 ....
 
 ```
+
+#### Cleanup after usage
+`void config_cleanup(Config* cfg);` --
+```
+....
+
+    config_cleanup(cfg);
+    return 0;
+  }
+
+```
