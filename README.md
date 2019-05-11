@@ -71,11 +71,11 @@ You can include these files and use the following functions to interact with the
 ```
 
 #### Cleanup after usage
-`void config_cleanup(Config* cfg);` --
+`void cfg_cleanup(Config* cfg);` --
 ```
 ....
 
-    config_cleanup(cfg);
+    cfg_cleanup(cfg);
     return 0;
   }
 
