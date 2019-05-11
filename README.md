@@ -20,14 +20,14 @@ You can include these files and use the following functions to interact with the
 ```
 
 #### Get value from Config struct
-`char* config_get(Config* cfg, char* key)` --
+`char* cfg_get(Config* cfg, char* key)` --
 ```
 ....
 
   char* filename = "path/to/example.cfg";
   Config* cfg = cfg_parse(filename);
   char* key = "hello";
-  char* value = config_get(cfg, key);
+  char* value = cfg_get(cfg, key);
   if (value) {
     printf("Key: %s was not empty, here is the value: %s\n", key, value);
   } else {
@@ -39,17 +39,17 @@ You can include these files and use the following functions to interact with the
 ```
 
 #### Set a value in the Config struct
-`char* config_put(Config* cfg, char* key, char* value)` --
+`char* cfg_put(Config* cfg, char* key, char* value)` --
 ```
 ....
 
   char* filename = "path/to/example.cfg";
   Config* cfg = cfg_parse(filename);
   char* key = "hello";
-  char* value = config_get(cfg, key);
+  char* value = cfg_get(cfg, key);
   char* newVal = " World!";
   if (!value) {
-    config_put(cfg, key, newVal);
+    cfg_put(cfg, key, newVal);
   }
 
 ....
@@ -64,18 +64,18 @@ You can include these files and use the following functions to interact with the
   Config* cfg = new_config();
   char* key = "Hello";
   char* value = " World!";
-  config_put(cfg, key, value);
+  cfg_put(cfg, key, value);
 
 ....
 
 ```
 
 #### Cleanup after usage
-`void config_cleanup(Config* cfg);` --
+`void cfg_cleanup(Config* cfg);` --
 ```
 ....
 
-    config_cleanup(cfg);
+    cfg_cleanup(cfg);
     return 0;
   }
 

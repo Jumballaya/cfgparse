@@ -17,8 +17,8 @@ typedef struct {
 } Config;
 
 Config* new_config();
-char*   config_get(Config* cfg, char* key);
-void    config_put(Config* cfg, char* k, char* v);
+char*   cfg_get(Config* cfg, char* key);
+void    cfg_put(Config* cfg, char* k, char* v);
 Config* cfg_parse(char* filename);
 void    cfg_cleanup(Config* cfg);
 

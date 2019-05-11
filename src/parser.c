@@ -145,7 +145,7 @@ Config* new_config() {
   return cfg;
 }
 
-char* config_get(Config* cfg, char* key) {
+char* cfg_get(Config* cfg, char* key) {
   for (int i = 0; i < cfg->len; i++) {
     if (strcmp(key, cfg->keys[i]) == 0) {
       return cfg->values[i];
@@ -156,9 +156,9 @@ char* config_get(Config* cfg, char* key) {
   return "\0";
 }
 
-void config_put(Config* cfg, char* k, char* v) {
-  // If the output of config_get with the new k is "\0", then it is not a duplicate
-  if (strcmp(config_get(cfg, k), "\0") == 0) {
+void cfg_put(Config* cfg, char* k, char* v) {
+  // If the output of cfg_get with the new k is "\0", then it is not a duplicate
+  if (strcmp(cfg_get(cfg, k), "\0") == 0) {
     if (cfg->len == cfg->size) {
       cfg->size += 20;
       cfg->keys = (char**)realloc(cfg->keys, sizeof(char*) * cfg->size);
@@ -229,7 +229,7 @@ void parser_parse_assignment(Parser* p, Config* cfg) {
       parser_read_char(p);
       parser_read_char(p);
       char* var_key = parser_read_var_key(p);
-      char* var_val = config_get(cfg, var_key);
+      char* var_val = cfg_get(cfg, var_key);
       if (var_val[0] == '\0') {
         // Variable not found, exit
         printf("Error: key \"%s\" not found\n", var_key);
@@ -243,7 +243,7 @@ void parser_parse_assignment(Parser* p, Config* cfg) {
   }
   trim(val);
 
-  config_put(cfg, key, val);
+  cfg_put(cfg, key, val);
 }
 
 Parser* new_parser(char* input) {
