@@ -9,7 +9,7 @@
 #include <string.h>
 #include <ctype.h>
 
-typedef struct {
+typedef struct t_config {
   char** keys;
   char** values;
   int    len;
@@ -22,7 +22,7 @@ void    cfg_put(Config* cfg, char* k, char* v);
 Config* cfg_parse(char* filename);
 void    cfg_cleanup(Config* cfg);
 
-typedef struct {
+typedef struct t_file {
   FILE* fp;
   char* contents;
   long  size;
@@ -31,7 +31,7 @@ typedef struct {
 File* open_file(char* filename);
 void  close_file(File* f);
 
-typedef struct {
+typedef struct t_parser {
   char* input;
   int   pos;
   int   readPos;
